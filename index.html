@@ -7,7 +7,23 @@
 	<style>
 		body {
 			margin: 0;
+			height: 1vh;
+			width: 100%;
 		}
+		.flex-block{
+			display: flex;
+			height: 100%;
+			width: 100%;
+		}
+		.left-block{
+			flex: 60%;
+			width: 90%;
+		}
+		.right-block{
+			flex: 40%;
+			/* z-index: 100000; */
+		}
+		
 	</style>
 	<!-- <script type="importmap">
 			{
@@ -30,6 +46,18 @@
 
 <body>
 	<script type="module" src="/main.js"></script>
+	<body>
+		<div class="flex-block">
+			<div id="container" class="left-block">
+			</div>
+			<div class="right-block">
+				<button id="btn" >send</button>
+			</div>
+			
+		</div>
+		
+		<script type="module" src="/main.js"></script>
+	</body>
 </body>
 
 </html>

@@ -3,8 +3,83 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import Stats from 'three/addons/libs/stats.module.js';
 
-const container = document.createElement( 'div' );
-document.body.appendChild( container );
+
+//-------------------- Websocket -----------------------
+let socket = new WebSocket("ws://127.0.0.1:8080");
+var btn = document.getElementById("btn");
+socket.onopen = function(e) {
+    console.log("[open] Connection established");
+    console.log("Sending to server");
+
+    btn.onclick = function()
+    {
+        var points = [[1.5,-1.5,-1,-2,0.5,-0.5],[-1.5,1.5,0,2,-0.5,0.5],[1.5,-1.5,1,0,0.5,-0.5],[0,1.5,0,2,1,0]];
+        var vel = [[1.5,1.5,1.5,1.5,1.5,1.5], [1.5,1.5,1.5,1.5,1.5,1.5], [1.5,1.5,1.5,1.5,1.5,1.5], [1.5,1.5,1.5,1.5,1.5,1.5]];
+        var acc = [[1.5,1.5,1.5,1.5,1.5,1.5], [1.5,1.5,1.5,1.5,1.5,1.5], [1.5,1.5,1.5,1.5,1.5,1.5], [1.5,1.5,1.5,1.5,1.5,1.5]];
+        var time = [-1,-1,-1,-1]
+        //   var obj = {name : "shubham", age : "26", city : "Hyderabad"};
+        var obj = {type : 1, 
+            plan_order : ["one"], 
+            one : {
+                joint_space : true,
+                points : points,
+                velocity: vel,
+                acceleration: acc,
+                time: time,
+                num_loops: 1
+            }}
+          const myObj = JSON.stringify(obj);
+
+    //   var obj = {data : "hi from client", }
+      console.log(`[message] Data sending to server`);
+    //   console.log("hi from client");
+    //   const myObj = JSON.stringify(obj);
+      socket.send(myObj);
+    }
+    };
+    
+    socket.onmessage = function(event) {
+      console.log(`[message] Data received from server`);
+      var obj = JSON.parse(event.data);
+    //   console.log(obj.data)
+    if (obj.type == 1)
+    {
+        link1.rotation.y = obj.points.j1;
+        link2.rotation.z = obj.points.j2;
+        link3.rotation.z = obj.points.j3;
+        link4.rotation.y = obj.points.j4;
+        link5.rotation.z = obj.points.j5;
+        link6.rotation.y = obj.points.j6;
+        // animate(obj.points);
+        console.log(obj)
+        // renderChart(obj.points.time, obj.points)
+    }
+    };
+    
+    socket.onclose = function(event) {
+      if (event.wasClean) {
+        console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+      } else {
+        // e.g. server process killed or network down
+        // event.code is usually 1006 in this case
+        console.log('[close] Connection died');
+      }
+    };
+    
+    socket.onerror = function(error) {
+        console.log(`[error]`);
+    };
+
+// -----------------------------------------------------------
+
+
+
+
+// ------------------------- ThreeJS ---------------------------
+// const container = document.createElement( 'div' );
+// document.body.appendChild( container );
+
+const container = document.getElementById("container");
 
 let camera, scene, renderer, stats;
 
@@ -12,7 +87,7 @@ const clock = new THREE.Clock();
 let mixer;
 
 // camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 20 );
-camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 100);
+camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 100); 
 camera.position.set(-2,2,2);
 
 scene = new THREE.Scene();
@@ -167,18 +242,31 @@ function animate() {
     // link0.position.setY(0);
     // link0.position.setZ(0.2);
 
-    link1.rotation.y = y_val;
-    link2.rotation.z = -y_val;
-    link3.rotation.z = -y_val;
-    link4.rotation.y = y_val;
-    link5.rotation.z = -y_val;
-    link6.rotation.y = y_val;
+    // link1.rotation.y = y_val;
+    // link2.rotation.z = -y_val;
+    // link3.rotation.z = -y_val;
+    // link4.rotation.y = y_val;
+    // link5.rotation.z = -y_val;
+    // link6.rotation.y = y_val;
+    
+    // link1.rotation.y = points.j1;
+    // link2.rotation.z = points.j2;
+    // link3.rotation.z = points.j3;
+    // link4.rotation.y = points.j4;
+    // link5.rotation.z = points.j5;
+    // link6.rotation.y = points.j6;
     
 // 
     y_val = y_val + 0.01;
 
-    stats.update();
+    // stats.update();
 
 }
 
+
 animate();
+
+//-----------------------------------------------------------
+
+
+
