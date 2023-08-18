@@ -1,0 +1,28 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+body > nav{
+    height: 4rem;
+    background-color: #151e3D;
+}
+
+body > section{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    align-items: center;
+}
+
+body > section aside{
+    border: 3px solid red;
+}
+
+body > section article{
+    border: 5px solid green;
+    overflow: hidden;
+    width: 100%;
+    height: calc(100vh - 7rem);
+    /* display: grid; */
+    justify-self: center;
+}

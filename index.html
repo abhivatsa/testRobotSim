@@ -4,27 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>My first three.js app</title>
-	<style>
-		body {
-			margin: 0;
-			height: 1vh;
-			width: 100%;
-		}
-		.flex-block{
-			display: flex;
-			height: 100%;
-			width: 100%;
-		}
-		.left-block{
-			flex: 60%;
-			width: 90%;
-		}
-		.right-block{
-			flex: 40%;
-			/* z-index: 100000; */
-		}
-		
-	</style>
+	<link rel="stylesheet" href="style.css">
 	<!-- <script type="importmap">
 			{
 			  "imports": {
@@ -47,14 +27,20 @@
 <body>
 	<script type="module" src="/main.js"></script>
 	<body>
-		<div class="flex-block">
-			<div id="container" class="left-block">
-			</div>
-			<div class="right-block">
-				<button id="btn" >send</button>
-			</div>
+
+		<nav>
 			
-		</div>
+		</nav>
+		<section>
+			<aside>
+
+			</aside>
+			<article id = "render-container">
+
+			</article>
+			
+		</section>
+
 		
 		<script type="module" src="/main.js"></script>
 	</body>
